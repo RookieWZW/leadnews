@@ -71,7 +71,7 @@ public class ApArticleSearchServiceImpl implements ApArticleSearchService {
             return result;
         }
         //查询搜索记录
-        List<ApUserSearch> list = apUserSearchMapper.selectByEntryId((int)result.getData(), dto.getPageSize());
+        List<ApUserSearch> list = apUserSearchMapper.selectByEntryId((int)result.getData(), 5);
         return ResponseResult.okResult(list);
     }
 
