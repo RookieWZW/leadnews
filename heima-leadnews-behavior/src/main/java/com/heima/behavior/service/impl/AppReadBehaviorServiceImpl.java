@@ -1,7 +1,6 @@
 package com.heima.behavior.service.impl;
 
 import com.heima.behavior.service.AppReadBehaviorService;
-import com.heima.common.zookeeper.sequence.Sequences;
 import com.heima.model.behavior.dtos.ReadBehaviorDto;
 import com.heima.model.behavior.pojos.ApBehaviorEntry;
 import com.heima.model.behavior.pojos.ApReadBehavior;
@@ -27,8 +26,7 @@ public class AppReadBehaviorServiceImpl implements AppReadBehaviorService {
     @Autowired
     private ApReadBehaviorMapper apReadBehaviorMapper;
 
-    @Autowired
-    private Sequences sequences;
+
 
     @Override
     public ResponseResult saveReadBehavior(ReadBehaviorDto dto) {
@@ -53,7 +51,7 @@ public class AppReadBehaviorServiceImpl implements AppReadBehaviorService {
         if(apReadBehavior==null){
             isInsert = true;
             apReadBehavior= new ApReadBehavior();
-            apReadBehavior.setId(sequences.sequenceApReadBehavior());
+           // apReadBehavior.setId(sequences.sequenceApReadBehavior());
         }
         apReadBehavior.setEntryId(apBehaviorEntry.getId());
         apReadBehavior.setCount(dto.getCount());

@@ -4,15 +4,20 @@ import com.heima.crawler.helper.CookieHelper;
 import com.heima.crawler.helper.CrawlerHelper;
 import com.heima.crawler.process.entity.CrawlerConfigProperty;
 import com.heima.crawler.process.scheduler.DbAndRedisScheduler;
+import com.heima.crawler.service.CrawlerIpPoolService;
 import com.heima.crawler.utils.SeleniumClient;
 import com.heima.model.crawler.core.callback.DataValidateCallBack;
+import com.heima.model.crawler.core.callback.ProxyProviderCallBack;
 import com.heima.model.crawler.core.parse.ParseRule;
+import com.heima.model.crawler.core.proxy.CrawlerProxy;
 import com.heima.model.crawler.core.proxy.CrawlerProxyProvider;
 import com.heima.model.crawler.enums.CrawlerEnum;
+import com.heima.model.crawler.pojos.ClIpPool;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -122,8 +127,52 @@ public class CrawlerConfig {
     public CrawlerProxyProvider getCrawlerProxyProvider() {
         CrawlerProxyProvider crawlerProxyProvider = new CrawlerProxyProvider();
         crawlerProxyProvider.setUsedProxyIp(isUsedProxyIp);
+        //设置动态代理
+        crawlerProxyProvider.setProxyProviderCallBack(new ProxyProviderCallBack() {
+            @Override
+            public List<CrawlerProxy> getProxyList() {
+                return getCrawlerProxyList();
+            }
+
+
+            public void unavilable(CrawlerProxy crawlerProxy) {
+                unavilableProxy(crawlerProxy);
+            }
+        });
         return crawlerProxyProvider;
     }
+
+    @Autowired
+    private CrawlerIpPoolService crawlerIpPoolService;
+
+    /**
+     * 获取初始化的ip列表
+     * @return
+     */
+    public List<CrawlerProxy> getCrawlerProxyList(){
+        List<CrawlerProxy> crawlerProxyList = new ArrayList<>();
+        ClIpPool clIpPool = new ClIpPool();
+        clIpPool.setDuration(5);
+        List<ClIpPool> clIpPools = crawlerIpPoolService.queryAvailabelList(clIpPool);
+        if(null != clIpPools && !clIpPools.isEmpty()){
+            for (ClIpPool ipPool : clIpPools) {
+                crawlerProxyList.add(new CrawlerProxy(ipPool.getIp(),ipPool.getPort()));
+            }
+        }
+
+        return crawlerProxyList;
+    }
+
+    /**
+     * 代理ip不可用处理方法
+     * @param crawlerProxy
+     */
+    public void unavilableProxy(CrawlerProxy crawlerProxy){
+        if(crawlerProxy != null){
+            crawlerIpPoolService.unAvailabelProxy(crawlerProxy,"自动禁用");
+        }
+    }
+
 
     private String initCrawlerXpath="//ul[@class='feedlist_mod']/li[@class='clearfix']/div[@class='list_con']/dl[@class='list_userbar']/dd[@class='name']/a";
 
@@ -183,6 +232,7 @@ public class CrawlerConfig {
     private int reidsPort;
     @Value("${redis.timeout}")
     private int reidstimeout;
+
 
     @Bean
     public DbAndRedisScheduler getDbAndRedisScheduler() {

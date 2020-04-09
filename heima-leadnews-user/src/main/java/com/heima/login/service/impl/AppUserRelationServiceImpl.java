@@ -1,6 +1,5 @@
 package com.heima.login.service.impl;
 
-import com.heima.common.zookeeper.sequence.Sequences;
 import com.heima.model.article.pojos.ApAuthor;
 import com.heima.model.behavior.dtos.FollowBehaviorDto;
 import com.heima.model.common.dtos.ResponseResult;
@@ -77,8 +76,6 @@ public class AppUserRelationServiceImpl implements AppUserRelationService {
     @Autowired
     private ApUserFanMapper apUserFanMapper;
 
-    @Autowired
-    private Sequences sequences;
 
     @Autowired
     private AppFollowBehaviorService appFollowBehaviorService;
@@ -102,7 +99,7 @@ public class AppUserRelationServiceImpl implements AppUserRelationService {
             ApUserFan apUserFan = apUserFanMapper.selectByFansId(BurstUtils.groudOne(followId), followId, user.getId());
             if(apUserFan==null){
                 apUserFan= new ApUserFan();
-                apUserFan.setId(sequences.sequenceApUserFan());
+              //  apUserFan.setId(sequences.sequenceApUserFan());
                 apUserFan.setUserId(followId);
                 apUserFan.setFansId(user.getId());
                 apUserFan.setFansName(user.getName());
@@ -114,7 +111,7 @@ public class AppUserRelationServiceImpl implements AppUserRelationService {
                 apUserFanMapper.insert(apUserFan);
             }
             apUserFollow= new ApUserFollow();
-            apUserFollow.setId(sequences.sequenceApUserFollow());
+          //  apUserFollow.setId(sequences.sequenceApUserFollow());
             apUserFollow.setUserId(user.getId());
             apUserFollow.setFollowId(followId);
             apUserFollow.setFollowName(apUser.getName());

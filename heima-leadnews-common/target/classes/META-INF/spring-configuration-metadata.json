@@ -2,13 +2,13 @@
   "groups": [
     {
       "name": "aliyun",
-      "type": "com.heima.common.aliyun.AliyunImageScanRequest",
-      "sourceType": "com.heima.common.aliyun.AliyunImageScanRequest"
+      "type": "com.heima.common.aliyun.AliyunTextScanRequest",
+      "sourceType": "com.heima.common.aliyun.AliyunTextScanRequest"
     },
     {
       "name": "aliyun",
-      "type": "com.heima.common.aliyun.AliyunTextScanRequest",
-      "sourceType": "com.heima.common.aliyun.AliyunTextScanRequest"
+      "type": "com.heima.common.aliyun.AliyunImageScanRequest",
+      "sourceType": "com.heima.common.aliyun.AliyunImageScanRequest"
     },
     {
       "name": "fast.dfs",
@@ -17,13 +17,13 @@
     },
     {
       "name": "kafka",
-      "type": "com.heima.common.kafka.KafkaConsumerConfig",
-      "sourceType": "com.heima.common.kafka.KafkaConsumerConfig"
+      "type": "com.heima.common.kafka.KafkaProducerConfig",
+      "sourceType": "com.heima.common.kafka.KafkaProducerConfig"
     },
     {
       "name": "kafka",
-      "type": "com.heima.common.kafka.KafkaProducerConfig",
-      "sourceType": "com.heima.common.kafka.KafkaProducerConfig"
+      "type": "com.heima.common.kafka.KafkaConsumerConfig",
+      "sourceType": "com.heima.common.kafka.KafkaConsumerConfig"
     },
     {
       "name": "kafka.topic",
@@ -49,33 +49,28 @@
       "name": "spring.redis",
       "type": "com.heima.common.redis.RedisConfiguration",
       "sourceType": "com.heima.common.redis.RedisConfiguration"
-    },
-    {
-      "name": "zk",
-      "type": "com.heima.common.zookeeper.ZkConfig",
-      "sourceType": "com.heima.common.zookeeper.ZkConfig"
     }
   ],
   "properties": [
     {
       "name": "aliyun.access-key",
       "type": "java.lang.String",
-      "sourceType": "com.heima.common.aliyun.AliyunImageScanRequest"
+      "sourceType": "com.heima.common.aliyun.AliyunTextScanRequest"
     },
     {
       "name": "aliyun.access-key",
       "type": "java.lang.String",
-      "sourceType": "com.heima.common.aliyun.AliyunTextScanRequest"
-    },
-    {
-      "name": "aliyun.secret",
-      "type": "java.lang.String",
       "sourceType": "com.heima.common.aliyun.AliyunImageScanRequest"
     },
     {
       "name": "aliyun.secret",
       "type": "java.lang.String",
       "sourceType": "com.heima.common.aliyun.AliyunTextScanRequest"
+    },
+    {
+      "name": "aliyun.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.heima.common.aliyun.AliyunImageScanRequest"
     },
     {
       "name": "fast.dfs.connect-timeout",
@@ -97,17 +92,19 @@
     {
       "name": "kafka.group",
       "type": "java.lang.String",
-      "sourceType": "com.heima.common.kafka.KafkaConsumerConfig"
-    },
-    {
-      "name": "kafka.hosts",
-      "type": "java.lang.String",
-      "sourceType": "com.heima.common.kafka.KafkaConsumerConfig"
+      "sourceType": "com.heima.common.kafka.KafkaConsumerConfig",
+      "defaultValue": "heima.topic.submit.article.auth.sigle.test"
     },
     {
       "name": "kafka.hosts",
       "type": "java.lang.String",
       "sourceType": "com.heima.common.kafka.KafkaProducerConfig"
+    },
+    {
+      "name": "kafka.hosts",
+      "type": "java.lang.String",
+      "sourceType": "com.heima.common.kafka.KafkaConsumerConfig",
+      "defaultValue": "127.0.0.1:9092"
     },
     {
       "name": "kafka.producer-listener",
@@ -117,7 +114,8 @@
     {
       "name": "kafka.topic.submit-article-auth",
       "type": "java.lang.String",
-      "sourceType": "com.heima.common.kafka.KafkaTopicConfig"
+      "sourceType": "com.heima.common.kafka.KafkaTopicConfig",
+      "defaultValue": "heima.topic.submit.article.auth.sigle.test"
     },
     {
       "name": "mysql.core.aliases-package",
@@ -168,16 +166,6 @@
       "name": "spring.elasticsearch.jest.url",
       "type": "java.lang.String",
       "sourceType": "com.heima.common.elasticsearch.ElasticsearchConfig"
-    },
-    {
-      "name": "zk.host",
-      "type": "java.lang.String",
-      "sourceType": "com.heima.common.zookeeper.ZkConfig"
-    },
-    {
-      "name": "zk.sequence-path",
-      "type": "java.lang.String",
-      "sourceType": "com.heima.common.zookeeper.ZkConfig"
     }
   ],
   "hints": []

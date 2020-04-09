@@ -56,6 +56,7 @@ public class KafkaSender {
      * @param message
      */
     public void sendSubmitArticleAuthMessage(SubmitArticleAuthMessage message){
-        this.sendMesssage(kafkaTopicConfig.getSubmitArticleAuth(), UUID.randomUUID().toString(),message);
+        System.out.println(kafkaTopicConfig.getSubmitArticleAuth());
+      this.sendMesssage(kafkaTopicConfig.getSubmitArticleAuth(), UUID.randomUUID().toString(),message);
     }
 }

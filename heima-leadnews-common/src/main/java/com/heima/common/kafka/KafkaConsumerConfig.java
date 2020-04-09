@@ -32,8 +32,8 @@ public class KafkaConsumerConfig {
     private static final int CONCURRENCY = 8;
     public final static Logger LOGGER = LoggerFactory.getLogger(KafkaConsumerConfig.class);
 
-    String hosts;
-    String group;
+    String hosts="127.0.0.1:9092";
+    String group="heima.topic.submit.article.auth.sigle.test";
 
 
     @Bean("defaultKafkaListenerContainerFactory")

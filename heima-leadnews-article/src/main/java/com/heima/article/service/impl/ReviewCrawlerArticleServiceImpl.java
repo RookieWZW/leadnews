@@ -265,6 +265,7 @@ public class ReviewCrawlerArticleServiceImpl implements ReviewCrawlerArticleServ
         apArticle.setLayout((short)clNews.getType());
         apArticle.setPublishTime(clNews.getCreatedTime());
         apArticle.setTitle(clNews.getTitle());
+        apArticle.setLabels(clNews.getLabelIds());
         apArticle.setOrigin(false);
         apArticle.setCreatedTime(new Date());
         StringBuilder sb = new StringBuilder();

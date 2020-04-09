@@ -1,7 +1,6 @@
 package com.heima.behavior.service.impl;
 
 import com.heima.behavior.service.AppLikesBehaviorService;
-import com.heima.common.zookeeper.sequence.Sequences;
 import com.heima.model.behavior.dtos.LikesBehaviorDto;
 import com.heima.model.behavior.pojos.ApBehaviorEntry;
 import com.heima.model.behavior.pojos.ApLikesBehavior;
@@ -27,8 +26,6 @@ public class AppLikesBehaviorServiceImpl implements AppLikesBehaviorService {
     @Autowired
     private ApLikesBehaviorMapper apLikesBehaviorMapper;
 
-    @Autowired
-    private Sequences sequences;
 
     @Override
     public ResponseResult saveLikesBehavior(LikesBehaviorDto dto) {
@@ -48,7 +45,7 @@ public class AppLikesBehaviorServiceImpl implements AppLikesBehaviorService {
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
         }
         ApLikesBehavior alb = new ApLikesBehavior();
-        alb.setId(sequences.sequenceApLikes());
+        //alb.setId(sequences.sequenceApLikes());
         alb.setBehaviorEntryId(apBehaviorEntry.getId());
         alb.setCreatedTime(new Date());
         alb.setEntryId(dto.getEntryId());
