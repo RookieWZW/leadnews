@@ -211,7 +211,8 @@ public class CrawlerConfig {
             //发布日期
             add(new ParseRule("releaseDate",CrawlerEnum.ParseRuleType.XPATH,"//span[@class='time']/text()"));
             //标签
-            add(new ParseRule("labels",CrawlerEnum.ParseRuleType.XPATH,"//span[@class='tags-box']/a/text()"));
+            add(new ParseRule("labels",CrawlerEnum.ParseRuleType.XPATH,"//a[@class='tag-link']/text()"));
+           // add(new ParseRule("labels",CrawlerEnum.ParseRuleType.XPATH,"//span[@class='tags-box']/a/text()"));
             //个人空间
             add(new ParseRule("personalSpace",CrawlerEnum.ParseRuleType.XPATH,"//a[@class='follow-nickName']/@href"));
             //阅读量

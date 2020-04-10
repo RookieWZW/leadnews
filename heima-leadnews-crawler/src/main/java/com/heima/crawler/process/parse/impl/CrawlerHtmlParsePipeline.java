@@ -96,6 +96,7 @@ public class CrawlerHtmlParsePipeline extends AbstractHtmlParsePipeline<CrawlerP
             handelTyep = parseItem.getHandelType();
             log.info("开始添加数据，url:{},handelType:{}",url,handelTyep);
             //添加文章数据
+            parseItem.setReleaseDate(parseItem.getReleaseDate().substring(5,24));
             ClNews clNews = addClNewsData(parseItem);
             parseItem.setId(url.substring(url.length()-9));
             if(null != clNews){
@@ -343,7 +344,7 @@ public class CrawlerHtmlParsePipeline extends AbstractHtmlParsePipeline<CrawlerP
         clNews.setCreatedTime(new Date());
         String releaseDate = parseItem.getReleaseDate();
         if(StringUtils.isNotEmpty(releaseDate)){
-            clNews.setOriginalTime(DateUtils.stringToDate(releaseDate,DateUtils.DATE_TIME_FORMAT_CHINESE));
+            clNews.setOriginalTime(DateUtils.stringToDate(releaseDate,DateUtils.DATE_TIME_FORMAT));
         }
         return clNews;
     }
