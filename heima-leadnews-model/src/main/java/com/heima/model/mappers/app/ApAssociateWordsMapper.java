@@ -14,4 +14,6 @@ public interface ApAssociateWordsMapper {
      * @return
      */
     List<ApAssociateWords> selectByAssociateWords(@Param("searchWords") String searchWords, @Param("limit") int limit);
+
+    void insert(ApAssociateWords apAssociateWords);
 }

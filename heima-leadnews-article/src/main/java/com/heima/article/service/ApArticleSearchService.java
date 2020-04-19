@@ -56,4 +56,6 @@ public interface ApArticleSearchService {
     ResponseResult saveUserSearch(Integer entryId,String searchWords);
 
 
+
+
 }

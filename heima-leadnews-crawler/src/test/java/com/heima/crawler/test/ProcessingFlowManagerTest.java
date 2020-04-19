@@ -18,7 +18,7 @@ public class ProcessingFlowManagerTest {
     public void test(){
         processingFlowManager.handel();
         try {
-            Thread.sleep(Integer.MAX_VALUE);
+            Thread.sleep(1000*60*10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

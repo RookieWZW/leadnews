@@ -38,4 +38,7 @@ public interface ClNewsAdditionalMapper {
      * @return
      */
     List<ClNewsAdditional> selectListByNeedUpdate(Date currentDate);
+
+
+    ClNewsAdditional selectByNewId(Integer newId);
 }

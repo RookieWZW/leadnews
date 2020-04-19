@@ -16,4 +16,6 @@ public interface ApArticleMapper {
 
     void insert(ApArticle apArticle);
 
+    List<ApArticle> loadLastArticleForHot(String lastDate);
+
 }

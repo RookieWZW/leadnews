@@ -24,4 +24,7 @@
         </if>
     </select>
 
+    <select id="selectAllEntry" resultMap="BaseResultMap">
+        select * from ap_behavior_entry
+    </select>
 </mapper>

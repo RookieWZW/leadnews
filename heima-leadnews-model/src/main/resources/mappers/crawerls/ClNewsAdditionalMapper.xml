@@ -235,4 +235,11 @@
       next_update_time = #{nextUpdateTime}
     where id = #{id}
   </update>
+
+    <select id="selectByNewId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_news_additional
+        where news_id = #{newsId}
+    </select>
 </mapper>

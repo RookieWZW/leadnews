@@ -256,6 +256,7 @@ public class CrawlerHtmlParsePipeline extends AbstractHtmlParsePipeline<CrawlerP
             clNewsAdditional.setReadCount(parseItem.getReadCount());//阅读数
             clNewsAdditional.setComment(parseItem.getCommentCount());//回复数
             clNewsAdditional.setLikes(parseItem.getLikes());//点赞
+
             clNewsAdditional.setUrl(parseItem.getUrl());//url
             clNewsAdditional.setUpdatedTime(new Date());
             clNewsAdditional.setCreatedTime(new Date());

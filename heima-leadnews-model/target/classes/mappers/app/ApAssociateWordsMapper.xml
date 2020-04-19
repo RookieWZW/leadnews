@@ -18,4 +18,11 @@
         where associate_words like #{searchWords} limit #{limit}
     </select>
 
+    <insert id="insert" parameterType="com.heima.model.article.pojos.ApAssociateWords">
+        insert into ap_associate_words
+        (associate_words,created_time)
+        values
+        (#{associateWords},#{createdTime})
+    </insert>
+
 </mapper>

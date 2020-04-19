@@ -1,6 +1,8 @@
 package com.heima.article.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.heima.article.service.ApArticleSearchService;
+import com.heima.article.util.HttpClientUtils;
 import com.heima.common.common.contants.ESIndexConstants;
 import com.heima.model.article.dtos.UserSearchDto;
 import com.heima.model.article.pojos.ApArticle;
@@ -26,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -117,13 +120,44 @@ public class ApArticleSearchServiceImpl implements ApArticleSearchService {
     private ApAssociateWordsMapper apAssociateWordsMapper;
 
     @Override
-    public ResponseResult searchAssociate(UserSearchDto dto) {
+    public ResponseResult searchAssociate(UserSearchDto dto)  {
         if(dto.getPageSize() > 50 || dto.getPageSize()<1){
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
         }
-        List<ApAssociateWords> apAssociateWords = apAssociateWordsMapper.selectByAssociateWords("%"+dto.getSearchWords()+"%", dto.getPageSize());
+       List<ApAssociateWords> apAssociateWords = apAssociateWordsMapper.selectByAssociateWords("%"+dto.getSearchWords()+"%", dto.getPageSize());
+
+        if (apAssociateWords==null || apAssociateWords.size()==0){
+            apAssociateWords = searchAssociateByBaiDu(dto);
+        }
+        if(apAssociateWords.size()>5){
+            apAssociateWords = apAssociateWords.subList(0,5);
+        }
         return ResponseResult.okResult(apAssociateWords);
+
     }
+    private List<ApAssociateWords> searchAssociateByBaiDu(UserSearchDto dto)  {
+        String jsonData = null;
+        String url = "http://suggestion.baidu.com/su?wd="+dto.getSearchWords()+"&p=3&cb=window.bdsug.sug#";
+        try {
+            jsonData = HttpClientUtils.get(url, null,"UTF-8");
+        } catch (Exception e) {
+            return null;
+        }
+        String[] jsonDataList = jsonData.split("s:");
+        jsonData =  jsonDataList[1].substring(0,jsonDataList[1].length()-3);
+        List<String> list = (List) JSON.parse(jsonData);
+        List<ApAssociateWords> apAssociateWordsList =  new ArrayList<>();
+        for (String string:list) {
+            ApAssociateWords apAssociateWords = new ApAssociateWords();
+            apAssociateWords.setAssociateWords(string);
+            apAssociateWords.setCreatedTime(new Date());
+            apAssociateWordsMapper.insert(apAssociateWords);
+            apAssociateWordsList.add(apAssociateWords);
+        }
+        return apAssociateWordsList;
+    }
+
+
 
     @Override
     public ResponseResult saveUserSearch(Integer entryId, String searchWords) {
@@ -162,6 +196,7 @@ public class ApArticleSearchServiceImpl implements ApArticleSearchService {
         //按照关键字查询，分页查询
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(QueryBuilders.matchQuery("title",dto.getSearchWords()));
+
         searchSourceBuilder.from(dto.getFromIndex());
         searchSourceBuilder.size(dto.getPageSize());
         Search search = new Search.Builder(searchSourceBuilder.toString())

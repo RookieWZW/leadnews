@@ -9,8 +9,10 @@ import com.heima.model.admin.pojos.AdChannel;
 import com.heima.model.article.pojos.*;
 import com.heima.model.common.constants.ESIndexConstants;
 import com.heima.model.crawler.pojos.ClNews;
+import com.heima.model.crawler.pojos.ClNewsAdditional;
 import com.heima.model.mappers.admin.AdChannelMapper;
 import com.heima.model.mappers.app.*;
+import com.heima.model.mappers.crawerls.ClNewsAdditionalMapper;
 import com.heima.model.mappers.crawerls.ClNewsMapper;
 import com.heima.utils.common.Compute;
 import com.heima.utils.common.ZipUtils;
@@ -247,6 +249,8 @@ public class ReviewCrawlerArticleServiceImpl implements ReviewCrawlerArticleServ
     @Autowired
     private ApArticleMapper apArticleMapper;
 
+    @Autowired
+    private ClNewsAdditionalMapper clNewsAdditionalMapper;
     /**
      * 保存文章
      * @param images
@@ -257,6 +261,7 @@ public class ReviewCrawlerArticleServiceImpl implements ReviewCrawlerArticleServ
      * @return
      */
     private ApArticle saveApArticleByCrawler(List<String> images, Integer channelId, String channelName, Integer authorId, ClNews clNews) {
+        ClNewsAdditional clNewsAdditional = clNewsAdditionalMapper.selectByNewId(clNews.getId());
         ApArticle apArticle = new ApArticle();
         apArticle.setChannelId(channelId);
         apArticle.setChannelName(channelName);
@@ -268,6 +273,10 @@ public class ReviewCrawlerArticleServiceImpl implements ReviewCrawlerArticleServ
         apArticle.setLabels(clNews.getLabelIds());
         apArticle.setOrigin(false);
         apArticle.setCreatedTime(new Date());
+        apArticle.setViews(clNewsAdditional.getReadCount());
+        apArticle.setComment(clNewsAdditional.getComment());
+        apArticle.setLikes(clNewsAdditional.getLikes());
+        apArticle.setCollection(0);
         StringBuilder sb = new StringBuilder();
         if(null != images && !images.isEmpty()){
             for(int i = 0;i<images.size() && i< 3;i++){
